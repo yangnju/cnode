@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>cnode-demo</title>
+    <style>#transRed{
+            color: red;
+            font-size: 33px;
+        }
+        #transBlue{
+            color: blue;
+            font-size: 50px;
+        }</style>
+</head>
+<body>
+<div id="app">
+    {{msg1}}<br>
+    {{date}}<br>
+    {{date | formatDate}}<br>
+    <span v-text="text1"></span><br>
+    <span>{{text2}}</span><br>
+    <span>{{html1}}</span><br>
+    <span v-html="html2"></span><br>
+    <div v-bind:id="id1Name">id1</div>
+    <div :id="id2Name">id2</div>
+    <button v-on:click="add">{{n}}</button>
+    <button @click="add">{{n}}</button>
+
+</div>
+<script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.min.js"></script>
+<script>var newDate = function newDate(num) {
+  return num < 10 ? "0" + num : num;
+};
+
+var vm = new Vue({
+  el: "#app",
+  data: {
+    msg1: "你好",
+    date: new Date(),
+    text1: "我用的是v-text指令",
+    text2: "我是插值法",
+    html1: "<h1>我是html1，用的是插值法</h1>",
+    html2: "<h1>我是html2，用的是v-html指令</h1>",
+    id1Name: 'transRed',
+    id2Name: 'transBlue',
+    n: 0
+  },
+  methods: {
+    add: function add() {
+      this.n = this.n + 1;
+    }
+  },
+  filters: {
+    formatDate: function formatDate(value) {
+      //const date = new Date(value)
+      var year = value.getFullYear();
+      var month = newDate(value.getMonth() + 1);
+      var date = value.getDate();
+      var hour = value.getHours();
+      var min = value.getMinutes();
+      var sec = value.getSeconds();
+      return year + '-' + month + "-" + date + " " + hour + ":" + min + ":" + sec;
+    }
+  },
+  created: function created() {
+    var _this = this;
+
+    this.timer = setInterval(function () {
+      _this.date = new Date();
+    }, 1000);
+  }
+});</script>
+
+</body>
